@@ -554,3 +554,44 @@
     </script>
 </body>
 </html>
+
+<!-- ย้าย JavaScript ทั้งหมดมาไว้ในนี้ -->
+<script>
+    // สคริปต์เพื่อจัดการกับแท็บและอื่นๆ
+    document.querySelectorAll('.tab-item').forEach(tab => {
+        tab.addEventListener('click', function() {
+            document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            // เพิ่มโค้ดเพื่อแสดงเนื้อหาที่เกี่ยวข้องตามแท็บที่เลือก
+        });
+    });
+
+    // เพิ่มการทำงานเมื่อคลิกที่ overlay เพื่อเปิดวิดีโอ
+    document.querySelectorAll('.project-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function() {
+            const imgElement = this.parentElement.querySelector('img');
+            const projectName = imgElement.alt;
+            const videoUrl = getVideoUrlByProjectName(projectName);
+            
+            if (videoUrl) {
+                // เปิดวิดีโอในหน้าต่างใหม่
+                window.open(videoUrl, '_blank');
+            }
+        });
+    });
+
+    // ฟังก์ชันสำหรับดึง URL วิดีโอตามชื่อโปรเจค
+    function getVideoUrlByProjectName(projectName) {
+        const videoMap = {
+            'There Is No Escape': 'https://youtu.be/ak1ZgGAyANc?si=lDpHIeNh-vLwUMzv', // แก้ไขเป็น URL วิดีโอจริงของคุณ
+            'RadRacer Remake (NES)': 'https://youtu.be/ak1ZgGAyANc?si=lDpHIeNh-vLwUMzv',
+            'Livingpuppet': 'https://youtu.be/ak1ZgGAyANc?si=lDpHIeNh-vLwUMzv',
+            'Ghost of Revenge': 'https://youtu.be/ak1ZgGAyANc?si=lDpHIeNh-vLwUMzv',
+            'GreenGuy': 'https://youtu.be/ak1ZgGAyANc?si=lDpHIeNh-vLwUMzv',
+            'Event dusty trip': 'https://youtu.be/ak1ZgGAyANc?si=lDpHIeNh-vLwUMzv',
+            'TowerOfGod': 'https://youtu.be/ak1ZgGAyANc?si=lDpHIeNh-vLwUMzv',
+            'KnightType': 'https://youtu.be/ak1ZgGAyANc?si=lDpHIeNh-vLwUMzv'
+        };
+        return videoMap[projectName] || '';
+    }
+</script>
