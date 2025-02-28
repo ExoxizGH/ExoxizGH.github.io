@@ -609,3 +609,137 @@
         return videoMap[projectName] || '';
     }
 </script>
+
+document.addEventListener('DOMContentLoaded', function() {
+    // เตรียมข้อมูลสำหรับแต่ละแท็บ
+    const tabContents = {
+        'ทักษะ': `
+            <div class="skill-item">
+                <div class="skill-title">
+                    <h3>Unity C#</h3>
+                    <span class="skill-level">ปานกลาง</span>
+                </div>
+                <p>ผมสนใจและทดลองทำเกมโดยมีประสบการณ์ 3 ปีนับตั้งแต่เริ่ม ในการทำเกมใน Unity C# รูปแบบ 2D และต่อยอดมา 3D ที่ผมรู้สึกสนใจเป็นพิเศษและประการณ์ที่จะหาไม่ได้จากเกม 2D </p>
+            </div>
+
+            <div class="skill-item">
+                <div class="skill-title">
+                    <h3>CLIP STUDIO PAINT</h3>
+                    <span class="skill-level">พื้นฐาน</span>
+                </div>
+                <p>ผมมีวาดรูปของโปรแกรม CLIP STUDIO PAINT เป็นงานอดิเรกรองลงมาจากการสร้างเกมและเล่นเกม ผมสนใจเรื่อง Anatomy และ Art ของตัวละครในเกมมากและวาดมันออกมาในบางครั้ง และมักถูกเลือกให้ช่วยเรื่องของสัดส่วนของตัวละครและการทำ Character sheet</p>
+            </div>
+
+            <div class="skill-item">
+                <div class="skill-title">
+                    <h3>BLENDER</h3>
+                    <span class="skill-level">พื้นฐาน</span>
+                </div>
+                <p>ผมมีทักษะการใช้โปรแกรม BLENDER เบื้องต้นที่หัดเรียนมาเร็วๆนี้ โดยสามารถทดลองปั้นโมเดลหน้าตาตัวละครสไตล์ Anime อย่างเช่น Girls frontline 2 & Zenless Zone Zero ได้</p>
+            </div>
+
+            <div class="skill-item">
+                <div class="skill-title">
+                    <h3>SHADER Programing</h3>
+                    <span class="skill-level">พื้นฐาน</span>
+                </div>
+                <p>ผมเขียน CODE shader ใน Unity เบื่องต้นได้ และผมสามารถปรับค่า shader ให้ Model ตัวละครมีเงาและแสงกระทบตัวละครในสไตล์ Anime ได้</p>
+            </div>
+        `,
+        'ภาษา': `
+            <div class="skill-item">
+                <div class="skill-title">
+                    <h3>ภาษาไทย</h3>
+                    <span class="skill-level">เจ้าของภาษา</span>
+                </div>
+                <p>ภาษาแม่ สามารถสื่อสาร อ่าน เขียน ได้เป็นอย่างดี</p>
+            </div>
+
+            <div class="skill-item">
+                <div class="skill-title">
+                    <h3>ภาษาอังกฤษ</h3>
+                    <span class="skill-level">ดี</span>
+                </div>
+                <p>สามารถอ่านเอกสารทางเทคนิค คู่มือการพัฒนาเกม และสื่อสารในระดับการทำงานได้เป็นอย่างดี</p>
+            </div>
+
+            <div class="skill-item">
+                <div class="skill-title">
+                    <h3>ภาษาญี่ปุ่น</h3>
+                    <span class="skill-level">พื้นฐาน</span>
+                </div>
+                <p>สามารถสื่อสารประโยคพื้นฐานได้ และเข้าใจคำศัพท์เฉพาะทางด้านเกมและอนิเมะ</p>
+            </div>
+        `,
+        'ประสบการณ์': `
+            <div class="skill-item">
+                <div class="skill-title">
+                    <h3>นักพัฒนาเกมอิสระ</h3>
+                    <span class="skill-level">2565 - ปัจจุบัน</span>
+                </div>
+                <p>พัฒนาเกมหลากหลายแนวทั้ง 2D และ 3D โดยใช้ Unity Engine เพื่อสร้างผลงานส่วนตัวและเข้าร่วมการแข่งขันพัฒนาเกม</p>
+            </div>
+
+            <div class="skill-item">
+                <div class="skill-title">
+                    <h3>นักศึกษาฝึกงาน - บริษัทพัฒนาเกม</h3>
+                    <span class="skill-level">2564</span>
+                </div>
+                <p>ฝึกงานในตำแหน่งนักพัฒนาเกม โดยรับผิดชอบในการแก้ไขบัคและปรับปรุงระบบ UI ของเกมบนแพลตฟอร์มมือถือ</p>
+            </div>
+
+            <div class="skill-item">
+                <div class="skill-title">
+                    <h3>Game Jam - งานแข่งขันพัฒนาเกม</h3>
+                    <span class="skill-level">2563 - ปัจจุบัน</span>
+                </div>
+                <p>เข้าร่วมการแข่งขันพัฒนาเกมในเวลาจำกัดหลายครั้ง ได้เรียนรู้การทำงานเป็นทีมและการพัฒนาเกมภายใต้ความกดดัน</p>
+            </div>
+        `,
+        'การศึกษา': `
+            <div class="skill-item">
+                <div class="skill-title">
+                    <h3>ปริญญาตรี - สาขาวิศวกรรมซอฟต์แวร์</h3>
+                    <span class="skill-level">2562 - 2566</span>
+                </div>
+                <p>มหาวิทยาลัยเทคโนโลยีแห่งเอเชีย - เกรดเฉลี่ย 3.50</p>
+                <p>เน้นการศึกษาด้านการพัฒนาเกมและแอปพลิเคชัน โปรเจคจบการศึกษาเกี่ยวกับการพัฒนาเกม 3D บนแพลตฟอร์ม PC</p>
+            </div>
+
+            <div class="skill-item">
+                <div class="skill-title">
+                    <h3>ประกาศนียบัตร - Game Development with Unity</h3>
+                    <span class="skill-level">2563</span>
+                </div>
+                <p>หลักสูตรออนไลน์จาก Udemy - เรียนรู้การพัฒนาเกมด้วย Unity engine ตั้งแต่ระดับพื้นฐานจนถึงขั้นสูง</p>
+            </div>
+
+            <div class="skill-item">
+                <div class="skill-title">
+                    <h3>มัธยมศึกษาตอนปลาย - สายวิทยาศาสตร์-คณิตศาสตร์</h3>
+                    <span class="skill-level">2559 - 2562</span>
+                </div>
+                <p>โรงเรียนวิทยาศาสตร์แห่งประเทศไทย - เกรดเฉลี่ย 3.75</p>
+                <p>เข้าร่วมชมรมคอมพิวเตอร์และได้เริ่มสนใจการพัฒนาเกมในช่วงนี้</p>
+            </div>
+        `
+    };
+
+    // จัดการกับการคลิกแท็บ
+    document.querySelectorAll('.tab-item').forEach(tab => {
+        tab.addEventListener('click', function() {
+            // ลบคลาส active จากทุกแท็บ
+            document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+            // เพิ่มคลาส active ให้กับแท็บที่ถูกคลิก
+            this.classList.add('active');
+            
+            // ดึงข้อความในแท็บที่ถูกคลิก
+            const tabName = this.textContent.trim();
+            
+            // แสดงเนื้อหาที่เกี่ยวข้องกับแท็บ
+            if (tabContents[tabName]) {
+                document.querySelector('.skill-list').innerHTML = tabContents[tabName];
+            }
+        });
+    });
+});
