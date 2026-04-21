@@ -1,5 +1,4 @@
 
-```html
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -111,14 +110,15 @@
             border-radius: 5px;
             overflow: hidden;
             padding-bottom: 20px;
+            display: flex;
+            flex-direction: column;
         }
 
         .project-image {
             position: relative;
-            height: 200px;
+            height: 200px; /* ความสูงปกติของเกมอื่นๆ */
             overflow: hidden;
-            /* เพิ่มพื้นหลังดำสำหรับโปรเจกต์ที่เป็นภาพขาวหรือสี่เหลี่ยมยาว */
-            background-color: #111; 
+            background-color: #111; /* พื้นหลังสีเทาสำหรับเกมทั่วไป */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -127,7 +127,18 @@
         .project-image img {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* ปรับเป็น contain เพื่อให้เห็นรูปเต็มๆ ไม่โดน Crop */
+            object-fit: cover; /* เต็มกรอบ */
+            transition: transform 0.3s ease;
+        }
+
+        /* การแก้ปัญหา Saltbloom: ปรับแต่งเฉพาะตัว */
+        .project-card:first-child .project-image {
+            height: 300px !important; /* เพิ่มความสูงเป็น 300px */
+            background-color: #000000 !important; /* เปลี่ยนพื้นหลังเป็นสีดำสนิท */
+        }
+        
+        .project-card:first-child .project-image img {
+            object-fit: cover; /* บังคับให้เติมเต็มพื้นที่สีดำ */
         }
 
         .project-overlay {
@@ -168,6 +179,7 @@
             display: flex;
             justify-content: center;
             gap: 10px;
+            margin-top: auto; /* ดันปุ่มลงล่างสุด */
         }
 
         .project-links a {
@@ -385,7 +397,7 @@
 
             <div class="contribution-chart">
                 <div class="chart-grid">
-                    <!-- สร้างกริดการมีส่วนร่วม - สร้างเพียงตัวอย่าง -->
+                    <!-- สร้างกริดการมีส่วนร่วม -->
                     <div class="chart-cell level-3"></div>
                     <div class="chart-cell level-4"></div>
                     <div class="chart-cell level-3"></div>
@@ -428,7 +440,7 @@
             </div>
 
             <div class="projects">
-                <!-- โปรเจคใหม่ Saltbloom (ลำดับแรก) -->
+                <!-- โปรเจค Saltbloom (แรกสุด) -->
                 <div class="project-card">
                     <div class="project-image">
                          <img src="https://github.com/user-attachments/assets/97b0cedd-6aa0-4c00-aebe-f1e697df4d45" alt="Saltbloom">
@@ -442,6 +454,7 @@
                     </div>
                 </div>
 
+                <!-- เกม There Is No Escape -->
                 <div class="project-card">
                     <div class="project-image">
                          <img src="https://github.com/user-attachments/assets/20be2d10-85ad-4175-80e1-2e4f165df3e9" alt="There Is No Escape">
@@ -597,8 +610,9 @@
         // ฟังก์ชันสำหรับดึง URL วิดีโอตามชื่อโปรเจค
         function getVideoUrlByProjectName(projectName) {
             const videoMap = {
-               
-                'Saltbloom': 'https://youtu.be/n23QoGpdJuo', 
+                // ใส่ลิงก์วิดีโอของ Saltbloom ที่บรรทัดด้านล่างนี้ครับ
+                'Saltbloom': 'https://www.youtube.com/watch?v=YOUR_VIDEO_ID', 
+                
                 'There Is No Escape': 'https://youtu.be/ak1ZgGAyANc?si=lDpHIeNh-vLwUMzv', 
                 'RadRacer Remake (NES)': 'https://youtu.be/kwTvVEOqCMc',
                 'Livingpuppet': 'https://youtu.be/tTNp8MoXhYY',
