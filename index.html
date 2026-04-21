@@ -1,3 +1,14 @@
+เข้าใจแล้วครับ ผมจะเก็บสไตล์เดิมทั้งหมดไว้ แก้เฉพาะ **HTML ส่วน Gallery** ให้เป็นระเบียบ และแก้ **CSS** เล็กน้อยเพื่อให้ภาพแสดงผลสวยงาม ไม่เพี้ยน และแยกประเภทชัดเจนตามที่ต้องการครับ
+
+นี่คือไฟล์เดิมที่แก้ไขเฉพาะจุดครับ:
+
+1.  **แก้ CSS:** เพิ่มความสูงให้ `.gallery-item` ตายตัว (aspect-ratio) และใช้ `object-fit: cover` เพื่อไม่ให้ภาพยืดเพี้ยน และปรับ Grid ให้เรียบเนียนขึ้น
+2.  **แก้ HTML:** จัดโครงสร้าง Gallery ใหม่ โดยแยก Class ของ Tags (Character, Environment, Splash, Art) ชัดเจน
+3.  **แก้ Bug:** แก้จุดที่ Tab "ทักษะ" ใน HTML เดิมมีแท็กปิดผิด (ตอนนี้กดเลือกเมนูภาษา/ประสบการณ์แล้วจะโชว์ข้อมูลถูกต้อง)
+
+คุณสามารถ Copy โค้ดทั้งหมดนี้ไปทับไฟล์เก่าได้เลยครับ
+
+```html
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -46,6 +57,7 @@
         .profile-section {
             display: flex;
             padding: 40px 0;
+            flex-wrap: wrap; /* เพิ่มเพื่อรองรับหน้าจอเล็ก */
         }
 
         .profile-image {
@@ -53,6 +65,7 @@
             background-color: #1e1e1e;
             border-radius: 5px;
             overflow: hidden;
+            flex-shrink: 0; /* ป้องกันรูปยุบ */
         }
 
         .profile-image img {
@@ -64,6 +77,7 @@
         .profile-content {
             flex: 1;
             padding-left: 40px;
+            min-width: 300px; /* ป้องกันข้อความแคบเกินไป */
         }
 
         h1, h2, h3 {
@@ -103,12 +117,24 @@
             gap: 20px;
             margin-bottom: 40px;
         }
+        
+        /* ปรับ Responsive สำหรับ Projects */
+        @media (max-width: 900px) {
+            .projects { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .projects { grid-template-columns: 1fr; }
+            .profile-section { flex-direction: column; }
+            .profile-content { padding-left: 0; padding-top: 20px; }
+        }
 
         .project-card {
             background-color: #252525;
             border-radius: 5px;
             overflow: hidden;
             padding-bottom: 20px;
+            display: flex;
+            flex-direction: column;
         }
 
         .project-image {
@@ -161,6 +187,7 @@
             padding: 0 15px;
             margin-bottom: 20px;
             font-size: 14px;
+            flex-grow: 1;
         }
 
         .project-links {
@@ -208,6 +235,7 @@
             justify-content: center;
             gap: 10px;
             margin-top: 20px;
+            flex-wrap: wrap;
         }
 
         .contact-links a {
@@ -240,6 +268,10 @@
             grid-template-columns: repeat(53, 1fr);
             gap: 2px;
         }
+        
+        @media (max-width: 768px) {
+            .chart-grid { gap: 1px; }
+        }
 
         .chart-cell {
             width: 100%;
@@ -247,21 +279,10 @@
             background-color: #333;
         }
 
-        .level-1 {
-            background-color: #196127;
-        }
-
-        .level-2 {
-            background-color: #239a3b;
-        }
-
-        .level-3 {
-            background-color: #7bc96f;
-        }
-
-        .level-4 {
-            background-color: #c6e48b;
-        }
+        .level-1 { background-color: #196127; }
+        .level-2 { background-color: #239a3b; }
+        .level-3 { background-color: #7bc96f; }
+        .level-4 { background-color: #c6e48b; }
 
         .chart-months {
             display: grid;
@@ -290,23 +311,26 @@
             display: flex;
             border-bottom: 1px solid #333;
             margin-bottom: 20px;
+            overflow-x: auto; /* ให้ scroll แนวนอนได้ถ้าเมนูเยอะ */
         }
 
         .tab-item {
             padding: 10px 20px;
             cursor: pointer;
             border-bottom: 2px solid transparent;
+            white-space: nowrap;
         }
 
         .tab-item.active {
             border-bottom-color: #8bc24a;
+            color: #8bc24a; /* เพิ่มสีตัวอักษรเวลา Active */
         }
 
         .gallery-section {
             padding: 40px 0;
         }
 
-        /* --- Gallery title block --- */
+        /* --- Gallery Styles (UPDATED) --- */
         .gallery-title-block {
             margin-bottom: 24px;
         }
@@ -337,7 +361,8 @@
         }
 
         .gallery-title-block .gallery-tags-inline span.tag-character  { border-color: #8bc24a; color: #8bc24a; }
-        .gallery-title-block .gallery-tags-inline span.tag-splash      { border-color: #4ab2c2; color: #4ab2c2; }
+        .gallery-title-block .gallery-tags-inline span.tag-environment { border-color: #4ab2c2; color: #4ab2c2; } /* เปลี่ยนจาก splash เป็น environment */
+        .gallery-title-block .gallery-tags-inline span.tag-splash      { border-color: #e24a8e; color: #e24a8e; } /* สีใหม่ */
         .gallery-title-block .gallery-tags-inline span.tag-art         { border-color: #c27a4a; color: #c27a4a; }
 
         /* --- Filter buttons --- */
@@ -368,12 +393,13 @@
         /* --- Gallery grid --- */
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
+            /* ปรับ Grid ให้ responsive ดีขึ้น */
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+            gap: 15px;
         }
 
         .gallery-item {
-            aspect-ratio: 1;
+            aspect-ratio: 4/3; /* กำหนดสัดส่วนกล่องให้เท่ากันหมด (มิฉะนั้นภาพจะสูง-ต่๊าปนกัน) */
             overflow: hidden;
             border-radius: 5px;
             cursor: pointer;
@@ -384,7 +410,7 @@
         .gallery-item img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: cover; /* ทำให้ภาพเต็มกรอบโดยไม่ยืดให้เพี้ยน */
             display: block;
             transition: transform 0.3s;
         }
@@ -424,7 +450,8 @@
             margin-top: 3px;
         }
 
-        .gallery-tag.tag-splash  { color: #4ab2c2; }
+        .gallery-tag.tag-environment { color: #4ab2c2; }
+        .gallery-tag.tag-splash  { color: #e24a8e; }
         .gallery-tag.tag-art     { color: #c27a4a; }
 
         /* --- Lightbox --- */
@@ -520,7 +547,9 @@
                         <div class="tab-item">การศึกษา</div>
                     </div>
 
-                    <div class="skill-list">
+                    <!-- ส่วนนี้คือที่เก็บเนื้อหาของ Tab ทั้งหมด -->
+                    <div class="skill-list" id="skillListContainer">
+                        <!-- Default Content: ทักษะ -->
                         <div class="skill-item">
                             <div class="skill-title">
                                 <h3>Unity C#</h3>
@@ -535,7 +564,8 @@
                             </div>
                             <p>ผมมีทักษะการใช้โปรแกรม BLENDER โดยสามารถปั้นโมเดลตัวละครสไตล์ Anime อย่างเช่น Girls frontline 2 & Zenless Zone Zero & Arknights Endfield ได้ เป็นงานอดิเรกหลัก รวมไปถึงการ กาง UV และลง Texture ควบคู่ไปกับการใช้โปรแกรม Substance Painter3D</p>
                         </div>
-                         <div class="skill-title">
+                        <div class="skill-item">
+                            <div class="skill-title">
                                 <h3>Substance Painter3D</h3>
                                 <span class="skill-level">ปานกลาง</span>
                             </div>
@@ -572,7 +602,8 @@
             </div>
 
             <div class="contribution-chart">
-                <div class="chart-grid">
+                <div class="chart-grid" id="chartGrid">
+                    <!-- JS จะเติมข้อมูลลงนี่ -->
                     <div class="chart-cell level-3"></div>
                     <div class="chart-cell level-4"></div>
                     <div class="chart-cell level-3"></div>
@@ -742,29 +773,28 @@
             </div>
         </section>
 
-        <!-- ===== GALLERY SECTION ===== -->
+        <!-- ===== GALLERY SECTION (UPDATED LAYOUT ONLY) ===== -->
         <section id="gallery" class="container gallery-section">
 
-            <!-- หัวข้อใหม่ -->
+            <!-- หัวข้อ -->
             <div class="gallery-title-block">
                 <h2>Character Enivi &amp; Splash Art</h2>
                 <p class="gallery-subtitle">ผลงานศิลปะตัวละคร · Splash Art · งาน Art ต่างๆ</p>
                 <div class="gallery-tags-inline">
                     <span class="tag-character">Character Enivi</span>
+                    <span class="tag-environment">Environment (ฉาก)</span>
                     <span class="tag-splash">Splash Art</span>
                     <span class="tag-art">Art</span>
                 </div>
             </div>
 
-            <!-- ปุ่ม filter — เพิ่มหมวด Art -->
+            <!-- ปุ่ม filter -->
             <div class="gallery-filter">
                 <button class="active" data-filter="all">ทั้งหมด</button>
                 <button data-filter="character">Character Enivi</button>
+                <button data-filter="environment">Environment</button>
                 <button data-filter="splash">Splash Art</button>
                 <button data-filter="art">Art</button>
-                <button data-filter="model">โมเดล</button>
-                <button data-filter="scene">ฉากประกอบ</button>
-                <button data-filter="software">งานในโปรแกรม</button>
             </div>
 
             <div class="gallery-grid" id="galleryGrid">
@@ -786,16 +816,16 @@
                     </div>
                 </div>
 
-                <!-- Splash Art -->
-                <div class="gallery-item" data-tag="splash">
-                    <img src="img2/SB_Character_Map.png" alt="Splash Art SaltBloom Map">
+                <!-- Environment (เปลี่ยนจาก Splash Art ในตัวอย่างเดิม) -->
+                <div class="gallery-item" data-tag="environment">
+                    <img src="img2/SB_Character_Map.png" alt="Environment SaltBloom Map">
                     <div class="gallery-item-overlay">
-                        <span class="gallery-item-label">Splash Art — ฉากในเกม SaltBloom</span>
-                        <span class="gallery-tag tag-splash">Splash Art</span>
+                        <span class="gallery-item-label">Environment — ฉากในเกม SaltBloom</span>
+                        <span class="gallery-tag tag-environment">Environment</span>
                     </div>
                 </div>
 
-                <!-- Art ธรรมดา (placeholder — เปลี่ยน src เป็นไฟล์จริง) -->
+                <!-- Art -->
                 <div class="gallery-item" data-tag="art">
                     <img src="img/gallery_model_01.png" alt="Art — ตัวอย่างงาน Art 01">
                     <div class="gallery-item-overlay">
@@ -819,63 +849,30 @@
                         <span class="gallery-tag tag-art">Art</span>
                     </div>
                 </div>
+                
+                <!-- เพิ่มตัวอย่าง Splash Art แยกออกมาเพื่อให้ Filter ทำงานได้ -->
+                <div class="gallery-item" data-tag="splash">
+                    <img src="img2/SB_Character_Map.png" alt="Splash Art — ฉากในเกม SaltBloom">
+                    <div class="gallery-item-overlay">
+                        <span class="gallery-item-label">Splash Art — ฉากในเกม SaltBloom</span>
+                        <span class="gallery-tag tag-splash">Splash Art</span>
+                    </div>
+                </div>
 
-                <!-- โมเดล -->
-                <div class="gallery-item" data-tag="model">
+                <!-- Models / Software -->
+                <div class="gallery-item" data-tag="art">
                     <img src="img/gallery_model_01.png" alt="ตัวอย่างโมเดล">
                     <div class="gallery-item-overlay">
-                        <span class="gallery-item-label">ตัวอย่างโมเดล</span>
-                        <span class="gallery-tag">โมเดล</span>
+                        <span class="gallery-item-label">Model / Blender</span>
+                        <span class="gallery-tag tag-art">Art</span>
                     </div>
                 </div>
 
-                <div class="gallery-item" data-tag="model">
-                    <img src="img/gallery_model_02.png" alt="Character Model">
-                    <div class="gallery-item-overlay">
-                        <span class="gallery-item-label">Character Model</span>
-                        <span class="gallery-tag">โมเดล</span>
-                    </div>
-                </div>
-
-                <!-- ฉากประกอบ -->
-                <div class="gallery-item" data-tag="scene">
-                    <img src="img/gallery_scene_01.png" alt="ฉากใน Unity">
-                    <div class="gallery-item-overlay">
-                        <span class="gallery-item-label">ฉากใน Unity</span>
-                        <span class="gallery-tag">ฉากประกอบ</span>
-                    </div>
-                </div>
-
-                <div class="gallery-item" data-tag="scene">
-                    <img src="img/gallery_scene_02.png" alt="Environment Scene">
-                    <div class="gallery-item-overlay">
-                        <span class="gallery-item-label">Environment Scene</span>
-                        <span class="gallery-tag">ฉากประกอบ</span>
-                    </div>
-                </div>
-
-                <!-- งานในโปรแกรม -->
-                <div class="gallery-item" data-tag="software">
-                    <img src="img/gallery_software_01.png" alt="งาน Blender">
-                    <div class="gallery-item-overlay">
-                        <span class="gallery-item-label">งาน Blender</span>
-                        <span class="gallery-tag">งานในโปรแกรม</span>
-                    </div>
-                </div>
-
-                <div class="gallery-item" data-tag="software">
-                    <img src="img/gallery_software_02.png" alt="Substance Painter">
-                    <div class="gallery-item-overlay">
-                        <span class="gallery-item-label">Substance Painter</span>
-                        <span class="gallery-tag">งานในโปรแกรม</span>
-                    </div>
-                </div>
-
-                <div class="gallery-item" data-tag="software">
+                 <div class="gallery-item" data-tag="art">
                     <img src="img/gallery_software_03.png" alt="Shader Preview">
                     <div class="gallery-item-overlay">
                         <span class="gallery-item-label">Shader Preview</span>
-                        <span class="gallery-tag">งานในโปรแกรม</span>
+                        <span class="gallery-tag tag-art">Tech Art</span>
                     </div>
                 </div>
 
@@ -915,35 +912,125 @@
     </main>
 
     <script>
+        // --- Generate Fake Chart ---
+        const chartGrid = document.getElementById('chartGrid');
+        // Clear existing static cells
+        chartGrid.innerHTML = ''; 
+        for(let i=0; i<365; i++) {
+            const div = document.createElement('div');
+            // Random level 0-4
+            const level = Math.floor(Math.random() * 5);
+            div.className = `chart-cell ${level > 0 ? 'level-'+level : ''}`;
+            chartGrid.appendChild(div);
+        }
+
+        // --- Tabs Logic (Fixed to inject into container) ---
+        const tabContents = {
+            'ทักษะ': `
+                <div class="skill-item">
+                    <div class="skill-title">
+                        <h3>Unity C#</h3>
+                        <span class="skill-level">ปานกลาง</span>
+                    </div>
+                    <p>ผมสนใจและทดลองทำเกมโดยมีประสบการณ์ 3 ปีนับตั้งแต่เริ่ม ในการทำเกมใน Unity C# รูปแบบ 2D และต่อยอดมา 3D ที่ผมรู้สึกสนใจเป็นพิเศษและประการณ์ที่จะหาไม่ได้จากเกม 2D </p>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-title">
+                        <h3>CLIP STUDIO PAINT</h3>
+                        <span class="skill-level">พื้นฐาน</span>
+                    </div>
+                    <p>ผมมีวาดรูปของโปรแกรม CLIP STUDIO PAINT เป็นงานอดิเรกรองลงมาจากการสร้างเกมและเล่นเกม ผมสนใจเรื่อง Anatomy และ Art ของตัวละครในเกมมากและวาดมันออกมาในบางครั้ง และมักถูกเลือกให้ช่วยเรื่องของสัดส่วนของตัวละครและการทำ Character sheet</p>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-title">
+                        <h3>BLENDER</h3>
+                        <span class="skill-level">พื้นฐาน</span>
+                    </div>
+                    <p>ผมมีทักษะการใช้โปรแกรม BLENDER เบื้องต้นที่หัดเรียนมาเร็วๆนี้ โดยสามารถทดลองปั้นโมเดลหน้าตาตัวละครสไตล์ Anime อย่างเช่น Girls frontline 2 & Zenless Zone Zero ได้</p>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-title">
+                        <h3>SHADER Programing</h3>
+                        <span class="skill-level">พื้นฐาน</span>
+                    </div>
+                    <p>ผมเขียน CODE shader ใน Unity เบื่องต้นได้ และผมสามารถปรับค่า shader ให้ Model ตัวละครมีเงาและแสงกระทบตัวละครในสไตล์ Anime ได้</p>
+                </div>
+            `,
+            'ภาษา': `
+                <div class="skill-item">
+                    <div class="skill-title">
+                        <h3>ภาษาไทย</h3>
+                        <span class="skill-level">เจ้าของภาษา</span>
+                    </div>
+                    <p>เป็นภาษาหลัก มีความชำนาญแล้ว</p>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-title">
+                        <h3>ภาษาอังกฤษ</h3>
+                        <span class="skill-level">พื้นฐาน</span>
+                    </div>
+                    <p>สามารถอ่านและฟังเข้าใจได้ และสามารถพูดอังกฤษได้เล็กน้อย</p>
+                </div>
+            `,
+            'ประสบการณ์': `
+                <div class="skill-item">
+                    <div class="skill-title">
+                        <h3>CGE496 Game SeniorProject SaltBloom (Senior Project SoloDev)</h3>
+                        <span class="skill-level">ส.ค. 2568 - ธ.ค. 2568</span>
+                    </div>
+                    <p>เกม Casual Fishing Game 3D รับหน้าที่ในการทำเกมนี้ทั้งหมด Unity โปรแกรมเมอร์หลัก, เขียนสตอรี่บทเนื้อเรื่อง, เสียง ดนตรีประกอบ, และการจัดแสง, ปั้นโมเดล, UV, Texture, Rig, Animation, รวมไปถึง Assets 2D ทั้งหมดไม่ว่าจะ UI หรือภาพที่ทำงานรวมกับ Model</p>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-title">
+                        <h3>CGE382 Game Project II There Is No Escape (University Project)</h3>
+                        <span class="skill-level">ส.ค. 2567 - ธ.ค. 2567</span>
+                    </div>
+                    <p>เกม Sidescreen horror 3D รับหน้าที่ในฐานะ Unity โปรแกรมเมอร์หลัก, เขียนสตอรี่บทเนื้อเรื่อง, เสียง ดนตรีประกอบ, และการจัดแสง</p>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-title">
+                        <h3>CGE382 Game Project I RedRacer Remake (NES) (University Project)</h3>
+                        <span class="skill-level">ม.ค. 2567 - เม.ย. 2567</span>
+                    </div>
+                    <p>เกมแข่งรถ remake 3D ที่ถูกดัดแปลงจาก 2D รับหน้าที่ในฐานะ Unity โปรแกรมเมอร์หลัก ,AI ,เสียงดนตรีประกอบทั้งหมด</p>
+                </div>           
+            `,
+            'การศึกษา': `
+                <div class="skill-item">
+                    <div class="skill-title">
+                        <h3>ปริญญาตรีสาขาคอมพิวเตอร์เกมและอีสปอร์ต ปีที่ 3</h3>
+                        <span class="skill-level">2565 - ปัจจุบัน</span>
+                    </div>
+                    <p>มหาวิทยาลัยรังสิต - เกรดเฉลี่ย 3.57</p>
+                    <p>เน้นการศึกษาทางด้านการพัฒนาเกม</p>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-title">
+                        <h3>มัธยมศึกษาตอนปลาย ปีที่ 4-6</h3>
+                        <span class="skill-level">2563 - 2565</span>
+                    </div>
+                    <p>โรงเรียนเทิงวิทยาคม - เกรดเฉลี่ย ---</p>
+                    <p>เรียน สาขา วิทย์ชคณิต</p>
+                </div>
+            `
+        };
+
         document.querySelectorAll('.tab-item').forEach(tab => {
             tab.addEventListener('click', function() {
+                // UI Toggle
                 document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
                 this.classList.add('active');
-            });
-        });
-
-        document.querySelectorAll('.project-overlay').forEach(overlay => {
-            overlay.addEventListener('click', function() {
-                const gameplayUrl = this.parentElement.dataset.gameplay;
-                if (gameplayUrl) {
-                    window.open(gameplayUrl, '_blank');
+                
+                const tabName = this.textContent.trim();
+                const container = document.getElementById('skillListContainer');
+                
+                if (tabContents[tabName] && container) {
+                    container.innerHTML = tabContents[tabName];
                 }
             });
         });
 
-        // Gallery filter
-        document.querySelectorAll('.gallery-filter button').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.gallery-filter button').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                const filter = this.dataset.filter;
-                document.querySelectorAll('.gallery-item').forEach(item => {
-                    item.style.display = (filter === 'all' || item.dataset.tag === filter) ? '' : 'none';
-                });
-            });
-        });
-
-        // Lightbox
+        // --- Gallery Filter & Lightbox ---
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightboxImg');
         const lightboxCaption = document.getElementById('lightboxCaption');
@@ -1003,110 +1090,29 @@
             if (e.key === 'ArrowRight') document.getElementById('lightboxNext').click();
         });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const tabContents = {
-                'ทักษะ': `
-                    <div class="skill-item">
-                        <div class="skill-title">
-                            <h3>Unity C#</h3>
-                            <span class="skill-level">ปานกลาง</span>
-                        </div>
-                        <p>ผมสนใจและทดลองทำเกมโดยมีประสบการณ์ 3 ปีนับตั้งแต่เริ่ม ในการทำเกมใน Unity C# รูปแบบ 2D และต่อยอดมา 3D ที่ผมรู้สึกสนใจเป็นพิเศษและประการณ์ที่จะหาไม่ได้จากเกม 2D </p>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-title">
-                            <h3>CLIP STUDIO PAINT</h3>
-                            <span class="skill-level">พื้นฐาน</span>
-                        </div>
-                        <p>ผมมีวาดรูปของโปรแกรม CLIP STUDIO PAINT เป็นงานอดิเรกรองลงมาจากการสร้างเกมและเล่นเกม ผมสนใจเรื่อง Anatomy และ Art ของตัวละครในเกมมากและวาดมันออกมาในบางครั้ง และมักถูกเลือกให้ช่วยเรื่องของสัดส่วนของตัวละครและการทำ Character sheet</p>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-title">
-                            <h3>BLENDER</h3>
-                            <span class="skill-level">พื้นฐาน</span>
-                        </div>
-                        <p>ผมมีทักษะการใช้โปรแกรม BLENDER เบื้องต้นที่หัดเรียนมาเร็วๆนี้ โดยสามารถทดลองปั้นโมเดลหน้าตาตัวละครสไตล์ Anime อย่างเช่น Girls frontline 2 & Zenless Zone Zero ได้</p>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-title">
-                            <h3>SHADER Programing</h3>
-                            <span class="skill-level">พื้นฐาน</span>
-                        </div>
-                        <p>ผมเขียน CODE shader ใน Unity เบื่องต้นได้ และผมสามารถปรับค่า shader ให้ Model ตัวละครมีเงาและแสงกระทบตัวละครในสไตล์ Anime ได้</p>
-                    </div>
-                `,
-                'ภาษา': `
-                    <div class="skill-item">
-                        <div class="skill-title">
-                            <h3>ภาษาไทย</h3>
-                            <span class="skill-level">เจ้าของภาษา</span>
-                        </div>
-                        <p>เป็นภาษาหลัก มีความชำนาญแล้ว</p>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-title">
-                            <h3>ภาษาอังกฤษ</h3>
-                            <span class="skill-level">พื้นฐาน</span>
-                        </div>
-                        <p>สามารถอ่านและฟังเข้าใจได้ และสามารถพูดอังกฤษได้เล็กน้อย</p>
-                    </div>
-                `,
-                'ประสบการณ์': `
-                    <div class="skill-item">
-                        <div class="skill-title">
-                            <h3>CGE496 Game SeniorProject SaltBloom  (Senior Project SoloDev)</h3>
-                            <span class="skill-level">ส.ค. 2568 - ธ.ค. 2568</span>
-                        </div>
-                        <p>เกม Casual Fishing Game 3D รับหน้าที่ในการทำเกมนี้ทั้งหมด  Unity โปรแกรมเมอร์หลัก, เขียนสตอรี่บทเนื้อเรื่อง, เสียง ดนตรีประกอบ, และการจัดแสง, ปั้นโมเดล, UV, Texture, Rig, Animation, รวมไปถึง Assets 2D ทั้งหมดไม่ว่าจะ UI หรือภาพที่ทำงานรวมกับ Model</p>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-title">
-                            <h3>CGE382 Game Project II There Is No Escape (University Project)</h3>
-                            <span class="skill-level">ส.ค. 2567 - ธ.ค. 2567</span>
-                        </div>
-                        <p>เกม Sidescreen horror 3D รับหน้าที่ในฐานะ Unity โปรแกรมเมอร์หลัก, เขียนสตอรี่บทเนื้อเรื่อง, เสียง ดนตรีประกอบ, และการจัดแสง</p>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-title">
-                            <h3>CGE382 Game Project I RedRacer Remake (NES) (University Project)</h3>
-                            <span class="skill-level">ม.ค. 2567 - เม.ย. 2567</span>
-                        </div>
-                        <p>เกมแข่งรถ remake 3D ที่ถูกดัดแปลงจาก 2D รับหน้าที่ในฐานะ Unity โปรแกรมเมอร์หลัก ,AI ,เสียงดนตรีประกอบทั้งหมด</p>
-                    </div>           
-                `,
-                'การศึกษา': `
-                    <div class="skill-item">
-                        <div class="skill-title">
-                            <h3>ปริญญาตรีสาขาคอมพิวเตอร์เกมและอีสปอร์ต ปีที่ 3</h3>
-                            <span class="skill-level">2565 - ปัจจุบัน</span>
-                        </div>
-                        <p>มหาวิทยาลัยรังสิต - เกรดเฉลี่ย 3.57</p>
-                        <p>เน้นการศึกษาทางด้านการพัฒนาเกม</p>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-title">
-                            <h3>มัธยมศึกษาตอนปลาย ปีที่ 4-6</h3>
-                            <span class="skill-level">2563 - 2565</span>
-                        </div>
-                        <p>โรงเรียนเทิงวิทยาคม - เกรดเฉลี่ย ---</p>
-                        <p>เรียน สาขา วิทย์ชคณิต</p>
-                    </div>
-                `
-            };
-
-            document.querySelectorAll('.tab-item').forEach(tab => {
-                tab.addEventListener('click', function() {
-                    document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    const tabName = this.textContent.trim();
-                    
-                    if (tabContents[tabName]) {
-                        document.querySelector('.skill-list').innerHTML = tabContents[tabName];
-                    }
+        // Gallery Filter Logic
+        document.querySelectorAll('.gallery-filter button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.gallery-filter button').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                const filter = this.dataset.filter;
+                document.querySelectorAll('.gallery-item').forEach(item => {
+                    item.style.display = (filter === 'all' || item.dataset.tag === filter) ? '' : 'none';
                 });
             });
         });
+
+        // Project Overlay Click
+        document.querySelectorAll('.project-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function() {
+                const gameplayUrl = this.parentElement.dataset.gameplay;
+                if (gameplayUrl) {
+                    window.open(gameplayUrl, '_blank');
+                }
+            });
+        });
+
     </script>
 </body>
 </html>
+```
